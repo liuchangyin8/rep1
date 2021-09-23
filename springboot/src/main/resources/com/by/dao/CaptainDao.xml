@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.by.dao.CaptainDao">
+
+    <insert id="addCaptainDao" parameterType="captainEntity">
+        insert  into sb_captain values (null,#{cname},#{cphone},#{cusername},#{cpwd},#{cflag})
+    </insert>
+
+    <delete id="delCaptainDao" parameterType="captainEntity">
+        delete from sb_captain where cid=#{cid}
+    </delete>
+
+    <update id="updateCaptainDao">
+        update sb_captain set cname=#{cname},cphone=#{cphone},cusername=#{cusername},cpwd=#{cpwd},cflag=#{cflag} where cid=#{cid}
+    </update>
+
+    <select id="byidCaptainDao" resultType="captainEntity">
+        select * from sb_captain where cid=#{cid}
+    </select>
+
+    <select id="findAllCaptainDao" resultType="captainEntity">
+        select * from sb_captain
+    </select>
+
+</mapper>

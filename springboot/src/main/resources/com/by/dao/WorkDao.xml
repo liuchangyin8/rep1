@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.by.dao.WorkDao">
+    
+    <resultMap id="work" type="workEntity">
+        <id property="wid" column="wid"/>
+        <result property="wtime" column="wtime"/>
+        <association property="wsid" javaType="shipsEntity">
+            <id column="sid" property="sid"/>
+            <result column="sname" property="sname"/>
+            <result column="snum" property="snum"/>
+            <result column="stupian" property="stupian"/>
+            <result column="sflag" property="sflag"/>
+            <association property="stsid" javaType="shipTypeEntity">
+                <id column="tsid" property="tsid"/>
+                <result column="tsflag" property="tsflag"/>
+                <result column="smoney" property="smoney"/>
+            </association>
+        </association>
+        <association property="wuid" javaType="userEntity">
+            <id column="uid" property="uid"/>
+            <result column="uname" property="uname"/>
+            <result column="uflag" property="uflag"/>
+        </association>
+    </resultMap>
+
+    <insert id="addWordDao" parameterType="workEntity">
+        insert into sb_work values (null,#{wtime},#{wsid.sid},${wuid.uid})
+    </insert>
+
+    <delete id="delWorkDao" parameterType="workEntity">
+        delete from sb_work where wid=#{wid}
+    </delete>
+
+    <update id="updateWorkDao">
+        update sb_work set wtime=#{wtime},wsid=#{wsid.sid},wuid=#{wuid.uid} where wid=#{wid}
+    </update>
+
+    <select id="byidWorkDao" resultMap="work">
+        select * from sb_work w,sb_ships s,sb_shiptype t,sb_user u where w.wsid=s.sid and s.stsid=t.tsid and w.wuid=u.uid and wid=#{wid}
+    </select>
+
+    <select id="findAllWorkDao" resultMap="work">
+        select * from sb_work w,sb_ships s,sb_shiptype t,sb_user u where w.wsid=s.sid and s.stsid=t.tsid and w.wuid=u.uid
+    </select>
+
+</mapper>

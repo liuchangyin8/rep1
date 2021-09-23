@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.by.dao.ShipTypeDao">
+
+    <resultMap id="shiptype" type="shiptypeEntity">
+        <id column="tsid" property="tsid"/>
+        <result column="tsflag" property="tsflag"/>
+        <result column="tsmoney" property="tsmoney"/>
+        <association property="tscid" javaType="captainEntity">
+            <id column="cid" property="cid"/>
+            <result column="cname" property="cname"/>
+            <result column="cflag" property="cflag"/>
+        </association>
+    </resultMap>
+
+    <insert id="addShipTypeDao" parameterType="shiptypeEntity">
+        insert  into sb_shiptype values (null,#{tsflag},#{tsmoney},#{tscid.cid})
+    </insert>
+
+    <delete id="delShipTypeDao" parameterType="shiptypeEntity">
+        delete from sb_shiptype where tsid=#{tsid}
+    </delete>
+
+    <update id="updateShipTypeDao">
+        update sb_shiptype set  tsflag=#{tsflag},tsmoney=#{tsmoney},tscid=#{tscid.cid} where tsid=#{tsid}
+    </update>
+
+    <select id="byidShipTypeDao" resultMap="shiptype">
+        select * from sb_shiptype ts,sb_captain c where ts.tscid = c.cid and ts.tsid=#{tsid}
+    </select>
+
+    <select id="findAllShipTypeDao" resultMap="shiptype">
+        select * from sb_shiptype ts,sb_captain c where ts.tscid = c.cid
+    </select>
+
+</mapper>

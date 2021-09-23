@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.by.dao.OrderDao">
+
+    <resultMap id="order" type="orderEntity">
+        <id property="oid" column="oid"/>
+        <result property="obegintime" column="obegintime"/>
+        <result property="oovertime" column="oovertime"/>
+        <result property="onum" column="onum"/>
+        <result property="oflag" column="oflag"/>
+        <association property="ouid" javaType="userEntity">
+            <id column="uid" property="uid"/>
+            <result property="uusername" column="uusername"/>
+            <result column="upwd" property="upwd"/>
+            <result column="uphone" property="uphone"/>
+            <result column="uname" property="uname"/>
+            <result column="usex" property="usex"/>
+            <result column="utime" property="utime"/>
+            <result column="uflag" property="uflag"/>
+        </association>
+        <association property="osid" javaType="shipsEntity">
+            <id column="sid" property="sid"/>
+            <result column="snum" property="snum"/>
+            <result column="sname" property="sname"/>
+            <result column="stupian" property="stupian"/>
+            <result column="sflag" property="sflag"/>
+            <association property="stsid" javaType="shipTypeEntity">
+                <id property="tsid" column="tsid"/>
+                <result column="tsflag" property="tsflag"/>
+                <result column="tsmoney" property="tsmoney"/>
+            </association>
+        </association>
+        <association property="ocid" javaType="captainEntity">
+            <id column="cid" property="cid"/>
+            <result column="cname" property="cname"/>
+            <result column="cphone" property="cphone"/>
+            <result column="cusername" property="cusername"/>
+            <result column="cpwd" property="cpwd"/>
+            <result column="cflag" property="cflag"/>
+        </association>
+
+    </resultMap>
+
+    <insert id="addOrderDao" parameterType="orderEntity">
+        insert  into sb_order values (null,#{ouid.uid},#{osid.sid},#{ocid.cid},#{obegintime},#{oovertime},#{onum},#{oflag})
+    </insert>
+
+    <select id="findAllOrderDao" resultMap="order">
+        select * from sb_order o,sb_ships s,sb_user u , sb_captain c where o.ouid=u.uid and o.osid=s.sid and o.ocid=c.cid
+    </select>
+
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.by.dao.ShipsDao">
+
+    <resultMap id="ships" type="shipsEntity">
+        <id column="sid" property="sid"/>
+        <result column="snum" property="snum"/>
+        <result column="sname" property="sname"/>
+        <result column="stupian" property="stupian"/>
+        <result column="sflag" property="sflag"/>
+        <association property="stsid" javaType="shipTypeEntity">
+            <id property="tsid" column="tsid"/>
+            <result column="tsflag" property="tsflag"/>
+            <result column="tsmoney" property="tsmoney"/>
+        </association>
+    </resultMap>
+
+    <insert id="addShipsDao" parameterType="shipsEntity">
+        insert  into sb_ships values (null,#{snum},#{sname},#{stupian},#{sflag},#{stsid.tsid})
+    </insert>
+
+    <delete id="delShipsDao" parameterType="shipsEntity">
+        delete from sb_ships where sid=#{sid}
+    </delete>
+
+    <update id="updateShipsDao" parameterType="shipsEntity">
+        update sb_ships set
+                    snum=#{snum},
+                    sname=#{sname},
+                    stupian=#{stupian},
+                    sflag=#{sflag},
+                    stsid=#{stsid.tsid}
+            where sid=#{sid}
+    </update>
+
+    <select id="byidShipsDao" resultMap="ships">
+        select * from sb_ships s , sb_shiptype t where s.stsid=t.tsid and s.sid=#{sid}
+    </select>
+
+    <select id="findAllShipsDao" resultMap="ships">
+        select * from sb_ships s , sb_shiptype t where s.stsid=t.tsid
+    </select>
+
+</mapper>

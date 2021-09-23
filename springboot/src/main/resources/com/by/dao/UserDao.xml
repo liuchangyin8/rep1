@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.by.dao.UserDao">
+
+    <!--用户添加-->
+    <insert id="addUserDao" parameterType="userEntity">
+        insert  into sb_user values (null,#{uusername},#{upwd},#{uphone},#{uname},#{usex},#{utime},1)
+    </insert>
+
+    <delete id="delUserDao" parameterType="userEntity">
+        delete from sb_user where uid=#{uid}
+    </delete>
+
+    <update id="updateUserDao">
+        update sb_user set  upwd=#{upwd},uphone=#{uphone},uname=#{uname},usex=#{usex} where uid=#{uid}
+    </update>
+
+    <select id="byidUserDao" resultType="userEntity">
+        select * from sb_user where uid=#{uid}
+    </select>
+
+    <select id="findAllUserDao" resultType="userEntity">
+        select * from sb_user where uflag=1
+    </select>
+
+    <!--/*选择角色*/-->
+    <select id="checkUser" resultType="userEntity">
+        select * from sb_user where uusername=#{uusername} and upwd=#{upwd} and uflag=#{uflag}
+    </select>
+
+    <!--/*登录*/-->
+    <select id="loginUserDao" resultType="userEntity">
+        select * from sb_user where uusername=#{uusername} and upwd=#{upwd}
+    </select>
+
+    <!--管理员添加-->
+    <insert id="addAdminDao" parameterType="userEntity">
+        insert  into sb_user values (null,#{uusername},#{upwd},#{uphone},#{uname},#{usex},#{utime},0)
+    </insert>
+
+    <!--把用户升级成管理员-->
+    <update id="updateUserToAdminDao">
+        update sb_user set uflag=0 where uid=#{uid}
+    </update>
+
+    <!--把用户升级成管理员-->
+    <update id="updateAdminToUserDao">
+        update sb_user set uflag=1 where uid=#{uid}
+    </update>
+
+    <!--查看所有管理员-->
+    <select id="findAllAdminDao" resultType="userEntity">
+        select * from sb_user where uflag=0
+    </select>
+
+    <!--查看所有员工-->
+    <select id="findAllWorkerDao" resultType="userEntity">
+        select * from sb_user where uflag=2
+    </select>
+
+    <!--添加员工-->
+    <insert id="addWorkerDao" parameterType="userEntity">
+        insert  into sb_user values (null,#{uusername},#{upwd},#{uphone},#{uname},#{usex},#{utime},2)
+    </insert>
+
+</mapper>

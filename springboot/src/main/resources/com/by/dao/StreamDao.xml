@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.by.dao.StreamDao">
+
+    <resultMap id="stream" type="streamEntity">
+        <id column="lid" property="lid"/>
+        <result column="ltime" property="ltime"/>
+        <result column="lmoney" property="lmoney"/>
+        <result column="lflag" property="lflag"/>
+        <result column="ldesc" property="ldesc"/>
+        <association property="loid" javaType="orderEntity">
+            <id property="oid" column="oid"/>
+            <result property="otime" column="otime"/>
+            <result property="obegintime" column="obegintime"/>
+            <result property="oovertime" column="oovertime"/>
+            <result property="onum" column="onum"/>
+            <result property="oflag" column="oflag"/>
+            <association property="ouid" javaType="userEntity">
+                <id column="uid" property="uid"/>
+                <result property="uusername" column="uusername"/>
+                <result column="upwd" property="upwd"/>
+                <result column="uphone" property="uphone"/>
+                <result column="uname" property="uname"/>
+                <result column="usex" property="usex"/>
+                <result column="utime" property="utime"/>
+                <result column="uflag" property="uflag"/>
+            </association>
+            <association property="osid" javaType="shipsEntity">
+                <id column="sid" property="sid"/>
+                <result column="snum" property="snum"/>
+                <result column="sname" property="sname"/>
+                <result column="stupian" property="stupian"/>
+                <result column="sflag" property="sflag"/>
+                <association property="stsid" javaType="shipTypeEntity">
+                    <id property="tsid" column="tsid"/>
+                    <result column="tsflag" property="tsflag"/>
+                    <result column="tsmoney" property="tsmoney"/>
+                </association>
+            </association>
+            <association property="ocid" javaType="captainEntity">
+                <id column="cid" property="cid"/>
+                <result column="cname" property="cname"/>
+                <result column="cphone" property="cphone"/>
+                <result column="cusername" property="cusername"/>
+                <result column="cpwd" property="cpwd"/>
+                <result column="cflag" property="cflag"/>
+            </association>
+        </association>
+    </resultMap>
+
+    <insert id="addStreamDao" parameterType="streamEntity">
+        insert into sb_stream values (null,#{ltime},#{loid.oid},#{lmoney},#{lflag},#{ldesc})
+    </insert>
+
+    <update id="updateStreamDao">
+        update sb_stream set ltime=#{ltime},loid=#{loid.oid},lmoney=#{lmoney},lflag=#{lflag},ldesc=#{ldesc} where lid=#{lid}
+    </update>
+
+    <!--<update id="updateAdminDao">
+        update sb_user set uflag=1 where uid=#{uid}
+    </update>-->
+
+    <select id="byidStreamDao" resultMap="stream">
+        select * from sb_stream l,sb_order o,sb_user u,sb_ships s,sb_captain c where l.loid=o.oid and o.ouid=u.uid and o.osid=s.sid and o.ocid=c.cid and lid=#{lid}
+    </select>
+
+    <select id="findAllStreamDao" resultMap="stream">
+        select * from sb_stream l,sb_order o,sb_user u,sb_ships s,sb_captain c where l.loid=o.oid and o.ouid=u.uid and o.osid=s.sid and o.ocid=c.cid
+    </select>
+
+</mapper>

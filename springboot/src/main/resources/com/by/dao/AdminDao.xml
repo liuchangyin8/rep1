@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.by.dao.AdminDao">
+
+    <insert id="addAdminDao" parameterType="adminEntity">
+        insert  into sb_admin values (null,#{aname},#{apwd})
+    </insert>
+
+    <delete id="delAdminDao" parameterType="adminEntity">
+        delete from sb_admin where aid=#{aid}
+    </delete>
+
+    <update id="updateAdminDao">
+        update sb_admin set  apwd=#{apwd} where aid=#{aid}
+    </update>
+
+    <select id="byidAdminDao" resultType="adminEntity">
+        select * from sb_admin where aid=#{aid}
+    </select>
+
+    <select id="findAllAdminDao" resultType="adminEntity">
+        select * from sb_admin
+    </select>
+
+</mapper>
